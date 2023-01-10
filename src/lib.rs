@@ -17,11 +17,28 @@ fn mapping(to_upper: f64, to_bottom: f64, from_upper: f64, from_bottom: f64, val
 }
 
 fn print_with_easing(msg: &str) {
-    for x in 1..=100 {}
+    let msg_len = msg.len();
+    let printed_index: Vec<i32> = vec![];
+
+    for x in 1..=100 {
+        let i = mapping(msg_len as f64, 0.0, 100.0, 0.0, x as f64) as i32;
+        if let Some(_) = printed_index.iter().find(|v| **v == i) {
+            println!("found");
+            continue;
+        }
+
+        let c = msg.chars().nth(i as usize);
+        if let Some(c) = c {
+            print!("{}", c);
+        }
+    }
+
+    println!("/n");
 }
 
 fn main() {
     let message: &str = "This library will print line with easing";
+    print_with_easing(message);
 }
 
 #[cfg(test)]
