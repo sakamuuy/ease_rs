@@ -1,4 +1,4 @@
-use std::f64::consts::PI;
+use std::{f64::consts::PI, io::Write, thread, time};
 
 pub fn ease_in_sine(v: f64) -> f64 {
     1.0 - (v * PI).cos() / 2.0
@@ -18,26 +18,32 @@ fn mapping(to_upper: f64, to_bottom: f64, from_upper: f64, from_bottom: f64, val
 
 fn print_with_easing(msg: &str) {
     let msg_len = msg.len();
-    let printed_index: Vec<i32> = vec![];
+    let mut printed_index: Vec<i32> = vec![];
+    let duration = time::Duration::from_millis(100);
 
     for x in 1..=100 {
+        thread::sleep(duration);
+
         let i = mapping(msg_len as f64, 0.0, 100.0, 0.0, x as f64) as i32;
         if let Some(_) = printed_index.iter().find(|v| **v == i) {
-            println!("found");
             continue;
         }
 
         let c = msg.chars().nth(i as usize);
         if let Some(c) = c {
             print!("{}", c);
+            // Following line allows to print character immediately.
+            std::io::stdout().flush().unwrap();
+            printed_index.push(i);
         }
     }
 
-    println!("/n");
+    println!("");
 }
 
 fn main() {
-    let message: &str = "This library will print line with easing";
+    let message: &str =
+        "aaaaaaaaaabbbbbbbbbbccccccccccddddddddddeeeeeeeeefffffffffgggggggggghhhhhhhhhh";
     print_with_easing(message);
 }
 
