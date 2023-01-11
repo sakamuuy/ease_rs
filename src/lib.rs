@@ -4,6 +4,17 @@ pub fn ease_in_sine(v: f64) -> f64 {
     1.0 - ((v * PI) / 2.0).cos()
 }
 
+pub fn ease_in_out_back(v: f64) -> f64 {
+    const C1: f64 = 1.70158;
+    const C2: f64 = C1 * 1.525;
+
+    if v < 0.5 {
+        return (2.0 * v).powf(2.0) * ((C2 + 1.0) * 2.0 * v - C2) / 2.0;
+    } else {
+        return ((2.0 * v - 2.0).powf(2.0) * ((C2 + 1.0) * (v * 2.0 - 2.0) + C2) + 2.0) / 2.0;
+    }
+}
+
 fn norm(value: f64, upper: f64, bottom: f64) -> f64 {
     (value - bottom) / (upper - bottom)
 }
@@ -28,6 +39,20 @@ fn print_with_easing(msg: &str) {
             continue;
         }
 
+        // if let Some(l) = printed_index.last() {
+        //     for n in *l..i {
+        //         let c = msg.chars().nth(n as usize);
+        //         if let Some(c) = c {
+        //             print!("{}", c);
+        //             // Following line allows to print character immediately.
+        //             std::io::stdout().flush().unwrap();
+        //             printed_index.push(n);
+        //         }
+        //     }
+        //     continue;
+        // }
+
+        // TODO: Refactor
         let c = msg.chars().nth(i as usize);
         if let Some(c) = c {
             print!("{}", c);
@@ -35,7 +60,6 @@ fn print_with_easing(msg: &str) {
             std::io::stdout().flush().unwrap();
             printed_index.push(i);
         }
-
         thread::sleep(duration);
     }
 
