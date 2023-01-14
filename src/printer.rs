@@ -20,6 +20,7 @@ impl Printer {
         let c = &self.msg.chars().nth(index as usize);
         if let Some(c) = c {
             print!("{}", c);
+
             // Following line allows to print character immediately.
             std::io::stdout().flush().unwrap();
             let _ = &self.printed_index.push(index);
@@ -33,29 +34,27 @@ impl Printer {
         for x in 1..=100 {
             // let x = ease_in_out_back(x as f64 / 100.0);
             let x = x as f64 / 100.0;
-            let i = easing::mapping(*msg_len as f64, 0.0, 1.0, 0.0, x) as i32;
-            if let Some(_) = &self.printed_index.iter().find(|v| **v == i) {
+            let eased_index = easing::mapping(*msg_len as f64, 0.0, 1.0, 0.0, x) as i32;
+
+            if let Some(_) = &self.printed_index.iter().find(|v| **v == eased_index) {
                 continue;
             }
 
-            if let Some(l) = &self.printed_index.last() {
-                for n in **l..i {
-                    let _ = &self.print_character(n);
+            let last_index = &self.printed_index.last();
+
+            match last_index {
+                Some(index) => {
+                    for i in **index + 1..=eased_index {
+                        let _ = &self.print_character(i);
+                    }
                 }
-                thread::sleep(duration);
-                continue;
-            }
-
-            let c = &self.msg.chars().nth(i as usize);
-            if let Some(c) = c {
-                print!("{}", c);
-                // Following line allows to print character immediately.
-                std::io::stdout().flush().unwrap();
-                let _ = &self.printed_index.push(i);
+                // First time only
+                None => {
+                    let _ = &self.print_character(0);
+                }
             }
             thread::sleep(duration);
         }
-
         println!("");
     }
 }
