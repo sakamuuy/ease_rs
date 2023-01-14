@@ -1,10 +1,10 @@
-use std::{io::Write, thread, time};
 use crate::easing;
+use std::{io::Write, thread, time};
 
 pub struct Printer {
     msg: String,
     printed_index: Vec<i32>,
-    duration_time: u64 
+    duration_time: u64,
 }
 
 impl Printer {
@@ -22,7 +22,7 @@ impl Printer {
             print!("{}", c);
             // Following line allows to print character immediately.
             std::io::stdout().flush().unwrap();
-            &self.printed_index.push(index);
+            let _ = &self.printed_index.push(index);
         }
     }
 
@@ -32,15 +32,15 @@ impl Printer {
 
         for x in 1..=100 {
             // let x = ease_in_out_back(x as f64 / 100.0);
-
-            let i = easing::mapping(*msg_len as f64, 0.0, 1.0, 0.0, x as f64) as i32;
+            let x = x as f64 / 100.0;
+            let i = easing::mapping(*msg_len as f64, 0.0, 1.0, 0.0, x) as i32;
             if let Some(_) = &self.printed_index.iter().find(|v| **v == i) {
                 continue;
             }
 
             if let Some(l) = &self.printed_index.last() {
                 for n in **l..i {
-                    &self.print_character(n);
+                    let _ = &self.print_character(n);
                 }
                 thread::sleep(duration);
                 continue;
@@ -51,7 +51,7 @@ impl Printer {
                 print!("{}", c);
                 // Following line allows to print character immediately.
                 std::io::stdout().flush().unwrap();
-                &self.printed_index.push(i);
+                let _ = &self.printed_index.push(i);
             }
             thread::sleep(duration);
         }

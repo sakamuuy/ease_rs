@@ -23,7 +23,13 @@ fn lerp(upper: f64, bottom: f64, ratio: f64) -> f64 {
     bottom + (upper - bottom) * ratio
 }
 
-pub fn mapping(to_upper: f64, to_bottom: f64, from_upper: f64, from_bottom: f64, value: f64) -> f64 {
+pub fn mapping(
+    to_upper: f64,
+    to_bottom: f64,
+    from_upper: f64,
+    from_bottom: f64,
+    value: f64,
+) -> f64 {
     lerp(to_upper, to_bottom, norm(value, from_upper, from_bottom))
 }
 
