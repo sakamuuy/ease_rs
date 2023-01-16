@@ -3,33 +3,45 @@ use std::f64::consts::PI;
 #[derive(Clone, Copy)]
 pub enum EasingKind {
     EaseInSine,
+    EaseOutSine,
+    EaseInOutSine,
     EaseInQuad,
     EaseInOutBack,
-}
-
-struct Easing {
-    name: EasingKind,
 }
 
 trait Calcuratable {
     fn calc(v: f64) -> f64;
 }
 
-pub struct EaseInSine {}
+struct EaseInSine {}
 impl Calcuratable for EaseInSine {
     fn calc(v: f64) -> f64 {
         1.0 - ((v * PI) / 2.0).cos()
     }
 }
 
-pub struct EaseInQuad {}
+struct EaseOutSine {}
+impl Calcuratable for EaseOutSine {
+    fn calc(v: f64) -> f64 {
+        ((v * PI) / 2.0).sin()
+    }
+}
+
+struct EaseInOutSine {}
+impl Calcuratable for EaseInOutSine {
+    fn calc(v: f64) -> f64 {
+        ((PI * v).cos() - 1.0) / 2.0
+    }
+}
+
+struct EaseInQuad {}
 impl Calcuratable for EaseInQuad {
     fn calc(v: f64) -> f64 {
         v * v
     }
 }
 
-pub struct EaseInOutBack {}
+struct EaseInOutBack {}
 impl Calcuratable for EaseInOutBack {
     fn calc(v: f64) -> f64 {
         const C1: f64 = 1.70158;
@@ -46,6 +58,8 @@ impl Calcuratable for EaseInOutBack {
 pub fn match_easing(name: EasingKind) -> fn(v: f64) -> f64 {
     match name {
         EasingKind::EaseInSine => return EaseInSine::calc,
+        EasingKind::EaseOutSine => return EaseOutSine::calc,
+        EasingKind::EaseInOutSine => return EaseInOutSine::calc,
         EasingKind::EaseInQuad => return EaseInQuad::calc,
         EasingKind::EaseInOutBack => return EaseInOutBack::calc,
     }
