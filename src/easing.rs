@@ -5,6 +5,9 @@ pub enum EasingKind {
     EaseInSine,
     EaseOutSine,
     EaseInOutSine,
+    EaseInCubic,
+    EaseOutCubic,
+    EaseInOutCubic,
     EaseInQuad,
     EaseInOutBack,
 }
@@ -34,6 +37,31 @@ impl Calcuratable for EaseInOutSine {
     }
 }
 
+struct EaseInCubic {}
+impl Calcuratable for EaseInCubic {
+    fn calc(v: f64) -> f64 {
+        v * v * v
+    }
+}
+
+struct EaseOutCubic {}
+impl Calcuratable for EaseOutCubic {
+    fn calc(v: f64) -> f64 {
+        1.0 - (1.0 - v).powf(3.0)
+    }
+}
+
+struct EaseInOutCubic {}
+impl Calcuratable for EaseInOutCubic {
+    fn calc(v: f64) -> f64 {
+        if v < 0.5 {
+            return 4.0 * v * v * v;
+        } else {
+            return 1.0 - (-2.0 * v + 2.0).powf(3.0) / 2.0;
+        }
+    }
+}
+
 struct EaseInQuad {}
 impl Calcuratable for EaseInQuad {
     fn calc(v: f64) -> f64 {
@@ -60,6 +88,9 @@ pub fn match_easing(name: EasingKind) -> fn(v: f64) -> f64 {
         EasingKind::EaseInSine => return EaseInSine::calc,
         EasingKind::EaseOutSine => return EaseOutSine::calc,
         EasingKind::EaseInOutSine => return EaseInOutSine::calc,
+        EasingKind::EaseInCubic => return EaseInCubic::calc,
+        EasingKind::EaseOutCubic => return EaseOutCubic::calc,
+        EasingKind::EaseInOutCubic => return EaseInOutCubic::calc,
         EasingKind::EaseInQuad => return EaseInQuad::calc,
         EasingKind::EaseInOutBack => return EaseInOutBack::calc,
     }
