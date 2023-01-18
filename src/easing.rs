@@ -60,9 +60,9 @@ struct EaseInOutCubic {}
 impl Calcuratable for EaseInOutCubic {
     fn calc(v: f64) -> f64 {
         if v < 0.5 {
-            return 4.0 * v * v * v;
+            4.0 * v * v * v
         } else {
-            return 1.0 - (-2.0 * v + 2.0).powf(3.0) / 2.0;
+            1.0 - (-2.0 * v + 2.0).powf(3.0) / 2.0
         }
     }
 }
@@ -85,9 +85,9 @@ struct EaseInOutQuad {}
 impl Calcuratable for EaseInOutQuad {
     fn calc(v: f64) -> f64 {
         if v < 0.5 {
-            return 2.0 * v * v;
+            2.0 * v * v
         } else {
-            return 1.0 - (-2.0 * v + 2.0).powf(2.0) / 2.0;
+            1.0 - (-2.0 * v + 2.0).powf(2.0) / 2.0
         }
     }
 }
@@ -133,19 +133,19 @@ impl Calcuratable for EaseInOutBack {
 
 pub fn match_easing(name: EasingKind) -> fn(v: f64) -> f64 {
     match name {
-        EasingKind::EaseInSine => return EaseInSine::calc,
-        EasingKind::EaseOutSine => return EaseOutSine::calc,
-        EasingKind::EaseInOutSine => return EaseInOutSine::calc,
-        EasingKind::EaseInCubic => return EaseInCubic::calc,
-        EasingKind::EaseOutCubic => return EaseOutCubic::calc,
-        EasingKind::EaseInOutCubic => return EaseInOutCubic::calc,
-        EasingKind::EaseInQuad => return EaseInQuad::calc,
-        EasingKind::EaseOutQuad => return EaseOutQuad::calc,
-        EasingKind::EaseInOutQuad => return EaseInOutQuad::calc,
-        EasingKind::EaseInQuart => return EaseInQuart::calc,
-        EasingKind::EaseOutQuart => return EaseOutQuart::calc,
-        EasingKind::EaseInOutQuart => return EaseInOutQuart::calc,
-        EasingKind::EaseInOutBack => return EaseInOutBack::calc,
+        EasingKind::EaseInSine => EaseInSine::calc,
+        EasingKind::EaseOutSine => EaseOutSine::calc,
+        EasingKind::EaseInOutSine => EaseInOutSine::calc,
+        EasingKind::EaseInCubic => EaseInCubic::calc,
+        EasingKind::EaseOutCubic => EaseOutCubic::calc,
+        EasingKind::EaseInOutCubic => EaseInOutCubic::calc,
+        EasingKind::EaseInQuad => EaseInQuad::calc,
+        EasingKind::EaseOutQuad => EaseOutQuad::calc,
+        EasingKind::EaseInOutQuad => EaseInOutQuad::calc,
+        EasingKind::EaseInQuart => EaseInQuart::calc,
+        EasingKind::EaseOutQuart => EaseOutQuart::calc,
+        EasingKind::EaseInOutQuart => EaseInOutQuart::calc,
+        EasingKind::EaseInOutBack => EaseInOutBack::calc,
     }
 }
 

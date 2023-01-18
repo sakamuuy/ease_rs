@@ -37,7 +37,12 @@ impl Printer {
             let x = easing(x as f64 / 100.0);
             let eased_index = easing::mapping(*msg_len as f64, 0.0, 1.0, 0.0, x) as i32;
 
-            if let Some(_) = &self.printed_index.iter().find(|v| **v == eased_index) {
+            if self
+                .printed_index
+                .iter()
+                .find(|v| **v == eased_index)
+                .is_some()
+            {
                 continue;
             }
 
@@ -56,6 +61,6 @@ impl Printer {
             }
             thread::sleep(*&self.duration);
         }
-        println!("");
+        println!();
     }
 }
