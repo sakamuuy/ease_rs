@@ -1,6 +1,8 @@
 use crate::easing::{self, match_easing, EasingKind};
 use std::{io::Write, thread, time};
 
+/// # Printer
+///
 pub struct Printer {
     msg: String,
     printed_index: Vec<i32>,
